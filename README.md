@@ -1,395 +1,219 @@
-The Healthcare Backend System is a comprehensive RESTful API built with Django and Django REST Framework that provides a secure platform for managing healthcare data. The system allows healthcare providers to register, authenticate, and manage patient records, doctor information, and patient-doctor relationships.
+# 🏥 Healthcare Backend System
 
-Key Objectives
-Provide secure user authentication using JWT tokens
-Enable CRUD operations for patient and doctor records
-Manage patient-doctor assignments
-Ensure data privacy and security
-Offer scalable architecture for healthcare applications
+A **secure, scalable, and RESTful API** built using **Django** and **Django REST Framework** for managing healthcare data including patients, doctors, and their relationships.
 
-Features
-🔐 Authentication & Security
-JWT-based authentication system
-Secure user registration and login
-Token refresh mechanism
-Password encryption using Django's built-in system
+---
 
-👥 User Management
-Custom user model with email-based authentication
-User registration with email verification
-Secure password management
+## 🚀 Key Features
 
-🏥 Patient Management
-Create, read, update, and delete patient records
-Comprehensive patient information storage
-Medical history tracking
-User-specific patient access control
+### 🔐 Authentication & Security
+- JWT-based authentication
+- Secure registration and login
+- Password encryption
+- Token refresh support
 
-👨‍⚕️ Doctor Management
-Complete doctor profile management
-Specialization and license tracking
-Years of experience recording
-Secure doctor information storage
+### 👤 User Management
+- Custom user model (email-based)
+- Email verification on registration
+- Secure password storage
 
-🔗 Patient-Doctor Mapping
-Assign doctors to patients
-Track reasons for visits
-View all doctors assigned to a patient
-Manage multiple patient-doctor relationships
-Technology Stack
+### 🧑‍⚕️ Doctor Management
+- CRUD operations on doctor profiles
+- Tracks specialization, license, and experience
 
-Backend Framework
-Django 4.2+: High-level Python web framework
-Django REST Framework 3.14+: Powerful toolkit for building Web APIs
+### 👩‍⚕️ Patient Management
+- Full CRUD support for patients
+- Tracks personal details & medical history
+- Access control for users
 
-Database
-PostgreSQL: Primary production database
-SQLite: Development database option
+### 🔗 Patient-Doctor Mapping
+- Assign doctors to patients
+- View mapping with visit reasons
+- One-to-many and many-to-one support
 
-Authentication
-djangorestframework-simplejwt: JSON Web Token authentication
+---
 
-Additional Libraries
-python-decouple: Environment variable management
-django-cors-headers: Cross-Origin Resource Sharing handling
-psycopg2-binary: PostgreSQL adapter for Python
+## 🛠️ Tech Stack
 
-Installation Guide
-Prerequisites
-Python 3.8 or higher
-PostgreSQL (for production) or SQLite (for development)
-Git
+- **Backend**: Django 4.2+, Django REST Framework 3.14+
+- **Database**: PostgreSQL (prod), SQLite (dev)
+- **Auth**: JWT (`djangorestframework-simplejwt`)
+- **Others**: `python-decouple`, `django-cors-headers`, `psycopg2-binary`
 
-Step 1: Clone the Repository
-BASH
+---
 
+## ⚙️ Setup Guide
+
+### 🔧 Prerequisites
+- Python 3.8+
+- PostgreSQL (for production)
+- Git
+
+---
+
+### 📝 Step-by-Step Installation
+
+```bash
+# Clone the repository
 git clone https://github.com/yourusername/healthcare-backend.git
 cd healthcare-backend
 
-Step 2: Create Virtual Environment
-BASH
-
-# Create virtual environment
+# Create and activate a virtual environment
 python -m venv healthcare_env
+source healthcare_env/bin/activate  # For Windows: healthcare_env\Scripts\activate
 
-# Activate virtual environment
-# On Windows
-healthcare_env\Scripts\activate
-# On macOS/Linux
-source healthcare_env/bin/activate
-Step 3: Install Dependencies
-BASH
-
+# Install dependencies
 pip install -r requirements.txt
-Step 4: Environment Configuration
-Create a .env file in the project root:
+```
 
-ENV
+---
 
-SECRET_KEY=django-insecure-your-secret-key-here
+### 🔐 Environment Configuration
+
+Create a `.env` file in the root:
+
+```
+SECRET_KEY=your-secret-key
 DEBUG=True
 DATABASE_NAME=healthcare_db
 DATABASE_USER=postgres
 DATABASE_PASSWORD=your_password
 DATABASE_HOST=localhost
 DATABASE_PORT=5432
-Step 5: Database Setup
-For PostgreSQL:
-BASH
+```
 
-# Create database (in PostgreSQL shell)
+---
+
+### 🗃️ Database Setup
+
+**PostgreSQL**:
+```sql
 CREATE DATABASE healthcare_db;
 CREATE USER postgres WITH PASSWORD 'your_password';
 GRANT ALL PRIVILEGES ON DATABASE healthcare_db TO postgres;
-For SQLite (Development):
-Update settings.py:
+```
 
-Python
-
+**SQLite (dev)**: In `settings.py`:
+```python
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
-Step 6: Run Migrations
-BASH
+```
 
+---
+
+### 🔨 Run Migrations & Superuser
+
+```bash
 python manage.py makemigrations
 python manage.py migrate
-Step 7: Create Superuser
-BASH
-
 python manage.py createsuperuser
-Step 8: Run Development Server
-BASH
+```
 
+---
+
+### ▶️ Start Development Server
+
+```bash
 python manage.py runserver
-The API will be available at http://localhost:8000/
+```
 
-API Documentation
-Base URL
+API will be available at: [http://localhost:8000/](http://localhost:8000/)
 
-http://localhost:8000/api/
-Authentication Endpoints
-1. User Registration
-URL: /api/auth/register/
-Method: POST
-Body:
-JSON
+---
 
-{
-    "email": "user@example.com",
-    "name": "John Doe",
-    "password": "securepassword123"
-}
-Response:
-JSON
+## 📡 API Endpoints
 
-{
-    "user": {
-        "id": 1,
-        "email": "user@example.com",
-        "name": "John Doe"
-    },
-    "tokens": {
-        "refresh": "refresh_token_here",
-        "access": "access_token_here"
-    },
-    "message": "User registered successfully"
-}
-2. User Login
-URL: /api/auth/login/
-Method: POST
-Body:
-JSON
+### 🔐 Authentication
 
-{
-    "email": "user@example.com",
-    "password": "securepassword123"
-}
-Response:
-JSON
+- **Register**: `POST /api/auth/register/`
+- **Login**: `POST /api/auth/login/`
+- **Refresh Token**: `POST /api/auth/token/refresh/`
 
-{
-    "user": {
-        "id": 1,
-        "email": "user@example.com",
-        "name": "John Doe"
-    },
-    "tokens": {
-        "refresh": "refresh_token_here",
-        "access": "access_token_here"
-    },
-    "message": "Login successful"
-}
-Patient Management Endpoints
-1. Create Patient
-URL: /api/patients/
-Method: POST
-Headers: Authorization: Bearer <access_token>
-Body:
-JSON
+### 🏥 Patients
 
-{
-    "first_name": "Jane",
-    "last_name": "Smith",
-    "date_of_birth": "1990-01-01",
-    "gender": "F",
-    "phone_number": "1234567890",
-    "email": "jane@example.com",
-    "address": "123 Main St, City, Country",
-    "medical_history": "No significant medical history"
-}
-2. List All Patients
-URL: /api/patients/
-Method: GET
-Headers: Authorization: Bearer <access_token>
-Response: Array of patient objects
-3. Get Patient Details
-URL: /api/patients/{id}/
-Method: GET
-Headers: Authorization: Bearer <access_token>
-4. Update Patient
-URL: /api/patients/{id}/
-Method: PUT
-Headers: Authorization: Bearer <access_token>
-Body: Updated patient data
-5. Delete Patient
-URL: /api/patients/{id}/
-Method: DELETE
-Headers: Authorization: Bearer <access_token>
-Doctor Management Endpoints
-1. Create Doctor
-URL: /api/doctors/
-Method: POST
-Headers: Authorization: Bearer <access_token>
-Body:
-JSON
+| Action       | Endpoint                  | Method |
+|--------------|---------------------------|--------|
+| Create       | `/api/patients/`          | POST   |
+| List All     | `/api/patients/`          | GET    |
+| Get by ID    | `/api/patients/{id}/`     | GET    |
+| Update       | `/api/patients/{id}/`     | PUT    |
+| Delete       | `/api/patients/{id}/`     | DELETE |
 
-{
-    "first_name": "Robert",
-    "last_name": "Johnson",
-    "specialization": "Cardiology",
-    "license_number": "LIC12345",
-    "phone_number": "9876543210",
-    "email": "dr.robert@example.com",
-    "years_of_experience": 10
-}
-2. List All Doctors
-URL: /api/doctors/
-Method: GET
-Headers: Authorization: Bearer <access_token>
-3. Get Doctor Details
-URL: /api/doctors/{id}/
-Method: GET
-Headers: Authorization: Bearer <access_token>
-4. Update Doctor
-URL: /api/doctors/{id}/
-Method: PUT
-Headers: Authorization: Bearer <access_token>
-5. Delete Doctor
-URL: /api/doctors/{id}/
-Method: DELETE
-Headers: Authorization: Bearer <access_token>
-Patient-Doctor Mapping Endpoints
-1. Create Mapping
-URL: /api/mappings/
-Method: POST
-Headers: Authorization: Bearer <access_token>
-Body:
-JSON
+### 👨‍⚕️ Doctors
 
-{
-    "patient": 1,
-    "doctor": 1,
-    "reason_for_visit": "Regular checkup"
-}
-2. List All Mappings
-URL: /api/mappings/
-Method: GET
-Headers: Authorization: Bearer <access_token>
-3. Get Doctors for a Patient
-URL: /api/mappings/patient/{patient_id}/
-Method: GET
-Headers: Authorization: Bearer <access_token>
-4. Delete Mapping
-URL: /api/mappings/{id}/
-Method: DELETE
-Headers: Authorization: Bearer <access_token>
-Database Schema
-User Model
-Field	Type	Description
-id	Integer	Primary key
-email	Email	Unique email address
-name	String	User's full name
-password	String	Encrypted password
-is_active	Boolean	Account status
-is_staff	Boolean	Staff status
-created_at	DateTime	Account creation timestamp
-updated_at	DateTime	Last update timestamp
-Patient Model
-Field	Type	Description
-id	Integer	Primary key
-user	ForeignKey	Reference to User
-first_name	String	Patient's first name
-last_name	String	Patient's last name
-date_of_birth	Date	Birth date
-gender	String	Gender (M/F/O)
-phone_number	String	Contact number
-email	Email	Email address
-address	Text	Physical address
-medical_history	Text	Medical history notes
-created_at	DateTime	Record creation timestamp
-updated_at	DateTime	Last update timestamp
-Doctor Model
-Field	Type	Description
-id	Integer	Primary key
-user	ForeignKey	Reference to User
-first_name	String	Doctor's first name
-last_name	String	Doctor's last name
-specialization	String	Medical specialization
-license_number	String	Medical license number
-phone_number	String	Contact number
-email	Email	Email address
-years_of_experience	Integer	Experience in years
-created_at	DateTime	Record creation timestamp
-updated_at	DateTime	Last update timestamp
-PatientDoctorMapping Model
-Field	Type	Description
-id	Integer	Primary key
-patient	ForeignKey	Reference to Patient
-doctor	ForeignKey	Reference to Doctor
-assigned_by	ForeignKey	Reference to User
-reason_for_visit	Text	Reason for assignment
-created_at	DateTime	Mapping creation timestamp
-updated_at	DateTime	Last update timestamp
-Authentication
-JWT Token Structure
-The system uses JWT (JSON Web Tokens) for authentication:
+| Action       | Endpoint                  | Method |
+|--------------|---------------------------|--------|
+| Create       | `/api/doctors/`           | POST   |
+| List All     | `/api/doctors/`           | GET    |
+| Get by ID    | `/api/doctors/{id}/`      | GET    |
+| Update       | `/api/doctors/{id}/`      | PUT    |
+| Delete       | `/api/doctors/{id}/`      | DELETE |
 
-Access Token: Short-lived token (60 minutes) for API access
-Refresh Token: Long-lived token (7 days) for obtaining new access tokens
-Using Tokens
-Include the access token in the Authorization header:
+### 🔗 Patient-Doctor Mapping
 
+| Action               | Endpoint                             | Method |
+|----------------------|--------------------------------------|--------|
+| Assign Doctor        | `/api/mappings/`                     | POST   |
+| List All Mappings    | `/api/mappings/`                     | GET    |
+| Get Patient's Doctors| `/api/mappings/patient/{patient_id}/`| GET    |
+| Delete Mapping       | `/api/mappings/{id}/`                | DELETE |
 
-Authorization: Bearer <access_token>
-Token Refresh
-When the access token expires, use the refresh token to get a new one:
+---
 
-BASH
+## 🧬 Database Models
 
-POST /api/auth/token/refresh/
-{
-    "refresh": "refresh_token_here"
-}
-Testing
-Using Postman
-Import the API collection
-Set up environment variables for tokens
-Test each endpoint systematically
-Using cURL
-BASH
+### 🔹 User
+- `email`, `name`, `password`, `is_active`, `is_staff`, `created_at`
 
-Collapse
-# Register user
+### 🔹 Patient
+- Linked to User
+- Includes `first_name`, `dob`, `gender`, `medical_history`, etc.
+
+### 🔹 Doctor
+- Linked to User
+- Includes `specialization`, `license_number`, `years_of_experience`
+
+### 🔹 PatientDoctorMapping
+- `patient`, `doctor`, `assigned_by`, `reason_for_visit`
+
+---
+
+## 🧪 Testing
+
+### ✅ Run Unit Tests
+```bash
+python manage.py test
+```
+
+### 🧪 Postman & cURL
+Example (cURL - Register User):
+
+```bash
 curl -X POST http://localhost:8000/api/auth/register/ \
 -H "Content-Type: application/json" \
 -d '{
-    "email": "test@example.com",
-    "name": "Test User",
-    "password": "testpass123"
+  "email": "test@example.com",
+  "name": "Test User",
+  "password": "testpass123"
 }'
+```
 
-# Login
-curl -X POST http://localhost:8000/api/auth/login/ \
--H "Content-Type: application/json" \
--d '{
-    "email": "test@example.com",
-    "password": "testpass123"
-}'
+---
 
-# Create patient (with token)
-curl -X POST http://localhost:8000/api/patients/ \
--H "Content-Type: application/json" \
--H "Authorization: Bearer <access_token>" \
--d '{
-    "first_name": "John",
-    "last_name": "Doe",
-    "date_of_birth": "1985-05-15",
-    "gender": "M",
-    "phone_number": "5551234567",
-    "email": "john.doe@example.com",
-    "address": "456 Oak St, City, Country",
-    "medical_history": "Hypertension"
-}'
-Unit Testing
-Run Django tests:
+## 🚀 Deployment Tips
 
-BASH
+- Set `DEBUG = False`
+- Use **PostgreSQL**
+- Secure `.env` & `SECRET_KEY`
+- Use HTTPS in production
 
-python manage.py test
-Deployment
-Production Checklist
-Set DEBUG = False in production# Health_Care
+---
+
+## 📬 Contact
+
+**Developer**: Rishav Upadhyay  
+**Email**: [rishavupadhyay482@gmail.com](mailto:rishavupadhyay482@gmail.com)
